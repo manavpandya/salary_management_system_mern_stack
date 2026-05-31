@@ -2,6 +2,8 @@
 
 A production-quality full-stack web application for managing 10,000 employees with salary analytics. Built with React, Express, Prisma, and SQLite.
 
+Note: Repository layout consolidated to `backend/` and `frontend/`. Removed legacy `server/` and `client/` folders to avoid duplication.
+
 ### Screenshots
 
 | Employees List | Edit Employee | Add Employee |
