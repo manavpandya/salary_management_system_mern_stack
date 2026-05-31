@@ -7,7 +7,7 @@ import type { SortOrder } from '../types';
 type SortField = 'jobTitle' | 'country' | 'avgSalary' | 'employeeCount';
 
 const formatCurrency = (v: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(v);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
 
 /** Renders the appropriate sort icon based on current sort state */
 function SortIcon({ active, direction }: { active: boolean; direction: SortOrder }) {

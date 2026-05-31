@@ -27,12 +27,16 @@ export async function fetchEmployee(id: number): Promise<Employee> {
 }
 
 export async function createEmployee(input: EmployeeFormData): Promise<Employee> {
-  const { data } = await api.post<Employee>('/employees', input);
+  // Ensure salary is rounded to 2 decimals before sending
+  const payload = { ...input, salary: Number(Number(input.salary).toFixed(2)) };
+  const { data } = await api.post<Employee>('/employees', payload);
   return data;
 }
 
 export async function updateEmployee(id: number, input: Partial<EmployeeFormData>): Promise<Employee> {
-  const { data } = await api.put<Employee>(`/employees/${id}`, input);
+  const payload: any = { ...input };
+  if (typeof input.salary !== 'undefined') payload.salary = Number(Number(input.salary).toFixed(2));
+  const { data } = await api.put<Employee>(`/employees/${id}`, payload);
   return data;
 }
 

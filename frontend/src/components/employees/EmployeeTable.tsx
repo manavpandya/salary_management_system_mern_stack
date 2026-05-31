@@ -22,7 +22,7 @@ export default function EmployeeTable({ employees, onEdit, onDelete, sortBy, sor
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
   const formatSalary = (salary: number) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(salary);
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(salary);
 
   const SortIcon = ({ field }: { field: string }) => {
     if (sortBy !== field) return <span className="ml-1 text-gray-300">↕</span>;
