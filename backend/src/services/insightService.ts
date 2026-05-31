@@ -31,9 +31,9 @@ export async function getSalaryInsightsByCountry(): Promise<CountrySalaryInsight
 
   const data = results.map((r) => ({
     country: r.country,
-    minSalary: r._min.salary ?? 0,
-    maxSalary: r._max.salary ?? 0,
-    avgSalary: Math.round((r._avg.salary ?? 0) * 100) / 100,
+    minSalary: r._min.salary !== null && typeof r._min.salary !== 'undefined' ? Number(r._min.salary) : 0,
+    maxSalary: r._max.salary !== null && typeof r._max.salary !== 'undefined' ? Number(r._max.salary) : 0,
+    avgSalary: r._avg.salary !== null && typeof r._avg.salary !== 'undefined' ? Math.round(Number(r._avg.salary) * 100) / 100 : 0,
     employeeCount: r._count.id,
   }));
 
@@ -80,7 +80,7 @@ export async function getSalaryInsightsByJobTitle(
   const data = paginated.map((r) => ({
     jobTitle: r.jobTitle,
     country: r.country,
-    avgSalary: Math.round((r._avg.salary ?? 0) * 100) / 100,
+    avgSalary: r._avg.salary !== null && typeof r._avg.salary !== 'undefined' ? Math.round(Number(r._avg.salary) * 100) / 100 : 0,
     employeeCount: r._count.id,
   }));
 
@@ -113,7 +113,7 @@ export async function getTotalSalaryStats(): Promise<{
 
   const stats = {
     totalEmployees: empCount,
-    overallAvgSalary: Math.round((avgResult._avg.salary ?? 0) * 100) / 100,
+    overallAvgSalary: avgResult._avg.salary !== null && typeof avgResult._avg.salary !== 'undefined' ? Math.round(Number(avgResult._avg.salary) * 100) / 100 : 0,
     totalCountries: countries.length,
     totalJobTitles: jobTitles.length,
   };

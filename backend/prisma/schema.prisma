@@ -12,7 +12,7 @@ model Employee {
   fullName  String
   jobTitle  String
   country   String
-  salary    Float
+  salary    Decimal
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

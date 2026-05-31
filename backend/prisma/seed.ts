@@ -115,7 +115,8 @@ async function main() {
         fullName: `${randomElement(firstNames)} ${randomElement(lastNames)}`,
         jobTitle,
         country,
-        salary: generateSalary(jobTitle, country),
+        // store salary as a decimal string to match Prisma Decimal type
+        salary: String(generateSalary(jobTitle, country).toFixed(2)),
       };
     }
 

@@ -51,8 +51,14 @@ export async function listEmployees(
     }),
   ]);
 
+  // Serialize Decimal values to numbers for API consumers
+  const serialized = data.map((emp: any) => ({
+    ...emp,
+    salary: emp.salary !== null && typeof emp.salary !== 'undefined' ? Number(emp.salary) : 0,
+  }));
+
   return {
-    data,
+    data: serialized,
     pagination: {
       total,
       page: safePage,
@@ -67,7 +73,10 @@ export async function getEmployeeById(id: number) {
   if (!employee) {
     throw new AppError(404, `Employee with id ${id} not found`);
   }
-  return employee;
+  return {
+    ...employee,
+    salary: employee.salary !== null && typeof employee.salary !== 'undefined' ? Number((employee as any).salary) : 0,
+  };
 }
 
 export async function createEmployee(input: CreateEmployeeInput) {
@@ -76,7 +85,8 @@ export async function createEmployee(input: CreateEmployeeInput) {
       fullName: input.fullName.trim().slice(0, 100),
       jobTitle: input.jobTitle.trim().slice(0, 100),
       country: input.country.trim().slice(0, 100),
-      salary: input.salary,
+      // Store salary as decimal string to ensure precision
+      salary: String(Number(input.salary).toFixed(2)),
     },
   });
 }
@@ -86,7 +96,17 @@ export async function updateEmployee(id: number, input: UpdateEmployeeInput) {
   if (!existing) {
     throw new AppError(404, `Employee with id ${id} not found`);
   }
-  return prisma.employee.update({ where: { id }, data: input });
+  const payload: any = { ...input };
+  if (typeof input.salary !== 'undefined') {
+    payload.salary = String(Number(input.salary).toFixed(2));
+  }
+
+  const updated = await prisma.employee.update({ where: { id }, data: payload });
+
+  return {
+    ...updated,
+    salary: updated.salary !== null && typeof updated.salary !== 'undefined' ? Number((updated as any).salary) : 0,
+  };
 }
 
 export async function deleteEmployee(id: number) {
