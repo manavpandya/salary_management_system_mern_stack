@@ -206,6 +206,12 @@ salary_management_system_mern_stack/
 
 ---
 
+## Data Types & Precision
+
+- **Salary** — Stored as `Decimal` in Prisma (no floating-point errors). API returns numeric values rounded to 2 decimal places. Frontend displays and submits salaries with consistent 2-decimal formatting (e.g., `$75,000.00`).
+
+---
+
 ## Performance Considerations
 
 | Concern | Solution |
